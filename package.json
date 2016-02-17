@@ -1,0 +1,14 @@
+{
+  "name": "fed-holidays",
+  "version": "1.0.0",
+  "description": "All about US federal holidays",
+  "main": "bin/index.js",
+  "keywords": [
+    "federal",
+    "holiday",
+    "holidays",
+    "date"
+  ],
+  "author": "Greg Walker <michael.walker@gsa.gov>",
+  "license": "Public Domain"
+}
