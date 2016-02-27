@@ -1,9 +1,7 @@
-'use strict';
-
-var moment = require('moment');
+"use strict";
 
 function getNthDayOf(n, day, month, year) {
-  var firstOfMonth = new Date(Date.parse(month + '/1/' + year + ' GMT'));
+  var firstOfMonth = new Date(Date.parse(month + "/1/" + year + " GMT"));
 
   var dayOffset = firstOfMonth.getUTCDay() - day;
   if (dayOffset > 0) {
@@ -14,7 +12,7 @@ function getNthDayOf(n, day, month, year) {
   var initialDay = firstOfMonth.getUTCDate() + dayOffset;
 
   var finalDay = initialDay + 7 * (n - 1);
-  return new Date(Date.parse(month + '/' + finalDay + '/' + year + ' GMT'));
+  return new Date(Date.parse(month + "/" + finalDay + "/" + year + " GMT"));
 }
 
 function getLastDayOf(day, month, year) {
@@ -26,7 +24,7 @@ function getLastDayOf(day, month, year) {
     lastOfDay += 7;
   }
 
-  return new Date(Date.parse(month + '/' + lastOfDay + '/' + year + ' GMT'));
+  return new Date(Date.parse(month + "/" + lastOfDay + "/" + year + " GMT"));
 }
 
 function allFederalHolidaysForYear() {
@@ -35,53 +33,53 @@ function allFederalHolidaysForYear() {
   var holidays = [];
 
   holidays.push({
-    name: 'New Year\'s Day',
-    date: new Date(Date.parse('1/1/' + year + ' GMT'))
+    name: "New Year's Day",
+    date: new Date(Date.parse("1/1/" + year + " GMT"))
   });
 
   holidays.push({
-    name: 'Birthday of Martin Luther King, Jr.',
+    name: "Birthday of Martin Luther King, Jr.",
     date: getNthDayOf(3, 1, 1, year)
   });
 
   holidays.push({
-    name: 'Washington\'s Birthday',
+    name: "Washington's Birthday",
     date: getNthDayOf(3, 1, 2, year)
   });
 
   holidays.push({
-    name: 'Memorial Day',
+    name: "Memorial Day",
     date: getLastDayOf(1, 5, year)
   });
 
   holidays.push({
-    name: 'Independence Day',
-    date: new Date(Date.parse('7/4/' + year + ' GMT'))
+    name: "Independence Day",
+    date: new Date(Date.parse("7/4/" + year + " GMT"))
   });
 
   holidays.push({
-    name: 'Labor Day',
+    name: "Labor Day",
     date: getNthDayOf(1, 1, 9, year)
   });
 
   holidays.push({
-    name: 'Columbus Day',
+    name: "Columbus Day",
     date: getNthDayOf(2, 1, 10, year)
   });
 
   holidays.push({
-    name: 'Veterans Day',
-    date: new Date(Date.parse('11/11/' + year + ' GMT'))
+    name: "Veterans Day",
+    date: new Date(Date.parse("11/11/" + year + " GMT"))
   });
 
   holidays.push({
-    name: 'Thanksgiving Day',
+    name: "Thanksgiving Day",
     date: getNthDayOf(4, 4, 11, year)
   });
 
   holidays.push({
-    name: 'Christmas Day',
-    date: new Date(Date.parse('12/25/' + year + ' GMT'))
+    name: "Christmas Day",
+    date: new Date(Date.parse("12/25/" + year + " GMT"))
   });
 
   var _iteratorNormalCompletion = true;
@@ -100,8 +98,7 @@ function allFederalHolidaysForYear() {
         holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
       }
 
-      holiday.dateString = holiday.date.getUTCFullYear() + '-' + (holiday.date.getUTCMonth() + 1) + '-' + holiday.date.getUTCDate();
-      holiday.moment = moment(holiday.dateString, 'YYYY-M-D');
+      holiday.dateString = holiday.date.getUTCFullYear() + "-" + (holiday.date.getUTCMonth() + 1) + "-" + holiday.date.getUTCDate();
     }
   } catch (err) {
     _didIteratorError = true;
@@ -123,7 +120,7 @@ function allFederalHolidaysForYear() {
 
 module.exports = {
   isAHoliday: function isAHoliday() {
-    var date = arguments.length <= 0 || arguments[0] === undefined ? moment() : arguments[0];
+    var date = arguments.length <= 0 || arguments[0] === undefined ? new Date() : arguments[0];
 
     var isHoliday = false;
     var allForYear = allFederalHolidaysForYear(date.getFullYear());

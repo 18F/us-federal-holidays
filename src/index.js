@@ -1,5 +1,3 @@
-const moment = require(`moment`);
-
 function getNthDayOf(n, day, month, year) {
   const firstOfMonth = new Date(Date.parse(`${month}/1/${year} GMT`));
 
@@ -113,14 +111,13 @@ function allFederalHolidaysForYear(year = 2015) {
     }
 
     holiday.dateString = `${holiday.date.getUTCFullYear()}-${holiday.date.getUTCMonth() + 1}-${holiday.date.getUTCDate()}`;
-    holiday.moment = moment(holiday.dateString, 'YYYY-M-D');
   }
 
   return holidays;
 }
 
 module.exports = {
-  isAHoliday(date = moment()) {
+  isAHoliday(date = new Date()) {
     let isHoliday = false;
     const allForYear = allFederalHolidaysForYear(date.getFullYear());
     const mm = date.getMonth(), dd = date.getDate();
