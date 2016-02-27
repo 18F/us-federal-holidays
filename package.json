@@ -1,5 +1,5 @@
 {
-  "name": "fed-holidays",
+  "name": "@18f/us-federal-holidays",
   "version": "1.0.0",
   "description": "All about US federal holidays",
   "main": "bin/index.js",
@@ -10,5 +10,24 @@
     "date"
   ],
   "author": "Greg Walker <michael.walker@gsa.gov>",
-  "license": "CC0-1.0"
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/18F/us-federal-holidays.git"
+  },
+  "scripts": {
+    "build": "babel src -d bin --no-comments"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-preset-es2015": "^6.5.0"
+  },
+  "dependencies": {
+    "moment": "^2.11.2"
+  }
 }
