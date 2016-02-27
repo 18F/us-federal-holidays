@@ -10,7 +10,7 @@ npm install @18f/us-federal-holidays
 
 ### Usage
 
-To get a list of all US federal holidays in a given year, use the `allForYear` method:
+To get a list of all US federal holidays in a given year, use the `allForYear` method.  If no year is passed in, uses the current year.
 
 ```javascript
 var fedHolidays = require('us-federal-holidays');

@@ -25,7 +25,7 @@ function getLastDayOf(day, month, year) {
   return new Date(Date.parse(`${month}/${lastOfDay}/${year} GMT`));
 }
 
-function allFederalHolidaysForYear(year = 2015) {
+function allFederalHolidaysForYear(year = (new Date().getFullYear())) {
   const holidays = [ ];
 
   //const firstDay = new Date(Date.parse(`1/1/${year} GMT`));

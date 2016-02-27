@@ -28,7 +28,7 @@ function getLastDayOf(day, month, year) {
 }
 
 function allFederalHolidaysForYear() {
-  var year = arguments.length <= 0 || arguments[0] === undefined ? 2015 : arguments[0];
+  var year = arguments.length <= 0 || arguments[0] === undefined ? new Date().getFullYear() : arguments[0];
 
   var holidays = [];
 
