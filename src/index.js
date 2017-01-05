@@ -119,7 +119,7 @@ function allFederalHolidaysForYear(year = (new Date().getFullYear())) {
 module.exports = {
   isAHoliday(date = new Date()) {
     let isHoliday = false;
-    const allForYear = allFederalHolidaysForYear(date.getFullYear());
+    const allForYear = allFederalHolidaysForYear(date.getFullYear()).concat(allFederalHolidaysForYear(date.getFullYear() + 1));
     const mm = date.getMonth(), dd = date.getDate();
 
     for(let holiday of allForYear) {
