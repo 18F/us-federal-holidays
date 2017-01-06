@@ -119,6 +119,9 @@ function allFederalHolidaysForYear(year = (new Date().getFullYear())) {
 module.exports = {
   isAHoliday(date = new Date()) {
     let isHoliday = false;
+
+    // Get this year and next, to handle the case where December 31 is the
+    // observed holiday for January 1 of the following year.
     const allForYear = allFederalHolidaysForYear(date.getFullYear()).concat(allFederalHolidaysForYear(date.getFullYear() + 1));
     const mm = date.getMonth(), dd = date.getDate();
 
