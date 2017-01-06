@@ -123,7 +123,7 @@ module.exports = {
     var date = arguments.length <= 0 || arguments[0] === undefined ? new Date() : arguments[0];
 
     var isHoliday = false;
-    var allForYear = allFederalHolidaysForYear(date.getFullYear());
+    var allForYear = allFederalHolidaysForYear(date.getFullYear()).concat(allFederalHolidaysForYear(date.getFullYear() + 1));
     var mm = date.getMonth(),
         dd = date.getDate();
 
