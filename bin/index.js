@@ -128,9 +128,9 @@ module.exports = {
 
     var isHoliday = false;
 
-    var allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode);
-    var mm = date.getUTCMonth(),
-        dd = date.getUTCDate();
+    var allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode);
+    var mm = date.getMonth(),
+        dd = date.getDate();
 
     var _iteratorNormalCompletion2 = true;
     var _didIteratorError2 = false;
@@ -159,6 +159,49 @@ module.exports = {
       } finally {
         if (_didIteratorError2) {
           throw _iteratorError2;
+        }
+      }
+    }
+
+    return isHoliday;
+  },
+  isAHolidayUTC: function isAHolidayUTC() {
+    var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+    var federalReserveMode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    var isHoliday = false;
+
+    var allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode);
+    var mm = date.getUTCMonth(),
+        dd = date.getUTCDate();
+
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = allForYear[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var holiday = _step3.value;
+
+        if (holiday.date.getUTCMonth() == mm && holiday.date.getUTCDate() == dd) {
+          isHoliday = true;
+          break;
+        }
+        if (holiday.date.getUTCMonth() > mm) {
+          break;
+        }
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
         }
       }
     }

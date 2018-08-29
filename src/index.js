@@ -122,6 +122,23 @@ module.exports = {
   isAHoliday(date = new Date(), federalReserveMode = false) {
     let isHoliday = false;
 
+    const allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode);
+    const mm = date.getMonth(), dd = date.getDate();
+
+    for(let holiday of allForYear) {
+      if(holiday.date.getUTCMonth() == mm && holiday.date.getUTCDate() == dd) {
+        isHoliday = true;
+        break;
+      }
+      if(holiday.date.getUTCMonth() > mm) {
+        break;
+      }
+    }
+    return isHoliday;
+  },
+  isAHolidayUTC(date = new Date(), federalReserveMode = false) {
+    let isHoliday = false;
+
     const allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode);
     const mm = date.getUTCMonth(), dd = date.getUTCDate();
 
