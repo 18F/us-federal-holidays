@@ -25,7 +25,7 @@ function getLastDayOf(day, month, year) {
   return new Date(Date.parse(`${month}/${lastOfDay}/${year} GMT`));
 }
 
-function allFederalHolidaysForYear(year = (new Date().getFullYear())) {
+function allFederalHolidaysForYear(year = (new Date().getFullYear()), federalReserveMode = false) {
   const holidays = [ ];
 
   //const firstDay = new Date(Date.parse(`1/1/${year} GMT`));
@@ -105,9 +105,11 @@ function allFederalHolidaysForYear(year = (new Date().getFullYear())) {
       // the observed date forward to Monday.
       holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
     } else if(dow == 6) {
-      // Actual holiday falls on Saturday.  Shift
-      // the observed date backward to Friday.
-      holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
+      if (!federalReserveMode) {
+        // Actual holiday falls on Saturday.  Shift
+        // the observed date backward to Friday.
+        holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
+      }
     }
 
     holiday.dateString = `${holiday.date.getUTCFullYear()}-${holiday.date.getUTCMonth() + 1}-${holiday.date.getUTCDate()}`;
@@ -117,12 +119,12 @@ function allFederalHolidaysForYear(year = (new Date().getFullYear())) {
 }
 
 module.exports = {
-  isAHoliday(date = new Date()) {
+  isAHoliday(date = new Date(), federalReserveMode = false) {
     let isHoliday = false;
 
     // Get this year and next, to handle the case where December 31 is the
     // observed holiday for January 1 of the following year.
-    const allForYear = allFederalHolidaysForYear(date.getFullYear()).concat(allFederalHolidaysForYear(date.getFullYear() + 1));
+    const allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getFullYear() + 1, federalReserveMode));
     const mm = date.getMonth(), dd = date.getDate();
 
     for(let holiday of allForYear) {

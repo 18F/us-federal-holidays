@@ -28,7 +28,8 @@ function getLastDayOf(day, month, year) {
 }
 
 function allFederalHolidaysForYear() {
-  var year = arguments.length <= 0 || arguments[0] === undefined ? new Date().getFullYear() : arguments[0];
+  var year = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date().getFullYear();
+  var federalReserveMode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
   var holidays = [];
 
@@ -95,7 +96,9 @@ function allFederalHolidaysForYear() {
       if (dow == 0) {
         holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
       } else if (dow == 6) {
-        holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
+        if (!federalReserveMode) {
+          holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
+        }
       }
 
       holiday.dateString = holiday.date.getUTCFullYear() + "-" + (holiday.date.getUTCMonth() + 1) + "-" + holiday.date.getUTCDate();
@@ -120,11 +123,12 @@ function allFederalHolidaysForYear() {
 
 module.exports = {
   isAHoliday: function isAHoliday() {
-    var date = arguments.length <= 0 || arguments[0] === undefined ? new Date() : arguments[0];
+    var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+    var federalReserveMode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
     var isHoliday = false;
 
-    var allForYear = allFederalHolidaysForYear(date.getFullYear()).concat(allFederalHolidaysForYear(date.getFullYear() + 1));
+    var allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getFullYear() + 1, federalReserveMode));
     var mm = date.getMonth(),
         dd = date.getDate();
 
