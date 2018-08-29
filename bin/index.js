@@ -128,9 +128,9 @@ module.exports = {
 
     var isHoliday = false;
 
-    var allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getFullYear() + 1, federalReserveMode));
-    var mm = date.getMonth(),
-        dd = date.getDate();
+    var allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode);
+    var mm = date.getUTCMonth(),
+        dd = date.getUTCDate();
 
     var _iteratorNormalCompletion2 = true;
     var _didIteratorError2 = false;

@@ -122,10 +122,8 @@ module.exports = {
   isAHoliday(date = new Date(), federalReserveMode = false) {
     let isHoliday = false;
 
-    // Get this year and next, to handle the case where December 31 is the
-    // observed holiday for January 1 of the following year.
-    const allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getFullYear() + 1, federalReserveMode));
-    const mm = date.getMonth(), dd = date.getDate();
+    const allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode);
+    const mm = date.getUTCMonth(), dd = date.getUTCDate();
 
     for(let holiday of allForYear) {
       if(holiday.date.getUTCMonth() == mm && holiday.date.getUTCDate() == dd) {
