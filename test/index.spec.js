@@ -24,7 +24,7 @@ describe('fedHolidays', () => {
       });
     });
     describe('federal bank holidays', () => {
-      let assertTrueWithShiftedSaturdays = (date_s) => {
+      let assertTrue = (date_s) => {
         let date = new Date(`${date_s} 00:00:00`);
         let dateUTC = new Date(`${date_s} 00:00:00 UTC`);
         let result = fedHolidays.isAHoliday(date);
@@ -32,7 +32,7 @@ describe('fedHolidays', () => {
         let resultUTC = fedHolidays.isAHolidayUTC(dateUTC);
         resultUTC.should.be.true();
       }
-      let assertFalseWithShiftedSaturdays = (date_s) => {
+      let assertFalse = (date_s) => {
         let date = new Date(`${date_s} 00:00:00`);
         let dateUTC = new Date(`${date_s} 00:00:00 UTC`);
         let result = fedHolidays.isAHoliday(date);
@@ -43,27 +43,45 @@ describe('fedHolidays', () => {
       describe('observing Saturday on previous Friday', () => {
         it('should return true for the day before Independence Day, Friday 2020-07-03', async () => {
           let date_s = '2020-07-03';
-          assertTrueWithShiftedSaturdays(date_s);
+          assertTrue(date_s);
         });
         it('should return false for Independence Day, Saturday 2020-07-04', async () => {
           let date_s = '2020-07-04';
-          assertFalseWithShiftedSaturdays(date_s);
+          assertFalse(date_s);
         });
         it('should return true for the day before New Years Day, Friday 2010-12-31', async () => {
           let date_s = '2010-12-31';
-          assertTrueWithShiftedSaturdays(date_s);
+          assertTrue(date_s);
         });
         it('should return false for New Years Day, Saturday 2011-01-01', async () => {
           let date_s = '2011-01-01';
-          assertFalseWithShiftedSaturdays(date_s);
+          assertFalse(date_s);
         });
         it('should return true for the day before New Years Day, Friday 2021-12-31', async () => {
           let date_s = '2021-12-31';
-          assertTrueWithShiftedSaturdays(date_s);
+          assertTrue(date_s);
         });
         it('should return false for New Years Day, Saturday 2022-01-01', async () => {
           let date_s = '2022-01-01';
-          assertFalseWithShiftedSaturdays(date_s);
+          assertFalse(date_s);
+        });
+      });
+      describe('observing Sunday on following Monday', () => {
+        it('should return true for the day after Veterans Day, Monday 2018-11-12', async () => {
+          let date_s = '2018-11-12';
+          assertTrue(date_s);
+        });
+        it('should return false for Veterans Day, Sunday 2018-11-11', async () => {
+          let date_s = '2018-11-11';
+          assertFalse(date_s);
+        });
+        it('should return true for the day after Independence Day, Monday 2021-07-05', async () => {
+          let date_s = '2021-07-05';
+          assertTrue(date_s);
+        });
+        it('should return false for Independence Day, Sunday 2021-07-04', async () => {
+          let date_s = '2021-07-04';
+          assertFalse(date_s);
         });
       });
     });
