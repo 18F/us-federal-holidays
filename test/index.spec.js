@@ -2,8 +2,6 @@ let fedHolidays = require('../src/index.js');
 let federalReserveHolidays = require('../test/data/federal_reserve_holidays');
 
 describe('fedHolidays', () => {
-  beforeEach(async () => {
-  });
   describe('isAHoliday and isAHolidayUTC', () => {
     describe('federal reserve holidays', () => {
       it('should match all dates from json file', () => {
@@ -49,6 +47,14 @@ describe('fedHolidays', () => {
         });
         it('should return false for Independence Day, Saturday 2020-07-04', async () => {
           let date_s = '2020-07-04';
+          assertFalseWithShiftedSaturdays(date_s);
+        });
+        it('should return true for the day before New Years Day, Friday 2010-12-31', async () => {
+          let date_s = '2010-12-31';
+          assertTrueWithShiftedSaturdays(date_s);
+        });
+        it('should return false for New Years Day, Saturday 2011-01-01', async () => {
+          let date_s = '2011-01-01';
           assertFalseWithShiftedSaturdays(date_s);
         });
         it('should return true for the day before New Years Day, Friday 2021-12-31', async () => {
