@@ -25,7 +25,7 @@ function getLastDayOf(day, month, year) {
   return new Date(Date.parse(`${month}/${lastOfDay}/${year} GMT`));
 }
 
-function allFederalHolidaysForYear(year = (new Date().getFullYear())) {
+function allFederalHolidaysForYear(year = (new Date().getFullYear()), shiftSaturdays = true, shiftSundays = true) {
   const holidays = [ ];
 
   //const firstDay = new Date(Date.parse(`1/1/${year} GMT`));
@@ -101,13 +101,17 @@ function allFederalHolidaysForYear(year = (new Date().getFullYear())) {
     const dow = holiday.date.getUTCDay();
 
     if(dow == 0) {
-      // Actual holiday falls on Sunday.  Shift
-      // the observed date forward to Monday.
-      holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
+      if (shiftSundays) {
+        // Actual holiday falls on Sunday.  Shift
+        // the observed date forward to Monday.
+        holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
+      }
     } else if(dow == 6) {
-      // Actual holiday falls on Saturday.  Shift
-      // the observed date backward to Friday.
-      holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
+      if (shiftSaturdays) {
+        // Actual holiday falls on Saturday.  Shift
+        // the observed date backward to Friday.
+        holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
+      }
     }
 
     holiday.dateString = `${holiday.date.getUTCFullYear()}-${holiday.date.getUTCMonth() + 1}-${holiday.date.getUTCDate()}`;
@@ -116,25 +120,41 @@ function allFederalHolidaysForYear(year = (new Date().getFullYear())) {
   return holidays;
 }
 
-module.exports = {
-  isAHoliday(date = new Date()) {
-    let isHoliday = false;
+function isAHolidayBase(year, month, day, shiftSaturdays = true, shiftSundays = true) {
+  let isHoliday = false;
 
-    // Get this year and next, to handle the case where December 31 is the
-    // observed holiday for January 1 of the following year.
-    const allForYear = allFederalHolidaysForYear(date.getFullYear()).concat(allFederalHolidaysForYear(date.getFullYear() + 1));
-    const mm = date.getMonth(), dd = date.getDate();
+  const allForCurrentYear = allFederalHolidaysForYear(year, shiftSaturdays, shiftSundays);
+  const allForNextYear = allFederalHolidaysForYear(year + 1, shiftSaturdays, shiftSundays);
+  const allForYear = allForCurrentYear.concat(allForNextYear[0]);
 
-    for(let holiday of allForYear) {
-      if(holiday.date.getUTCMonth() == mm && holiday.date.getUTCDate() == dd) {
-        isHoliday = true;
-        break;
-      }
-      if(holiday.date.getUTCMonth() > mm) {
-        break;
-      }
+  for(let holiday of allForYear) {
+    if(holiday.date.getUTCMonth() == month && holiday.date.getUTCDate() == day) {
+      isHoliday = true;
+      break;
     }
-    return isHoliday;
-  },
+    if(holiday.date.getUTCMonth() > month) {
+      break;
+    }
+  }
+  return isHoliday;
+}
+
+function isAHoliday(date = new Date(), shiftSaturdays = true, shiftSundays = true) {
+  let year = date.getFullYear();
+  let month = date.getMonth();
+  let day = date.getDate();
+  return isAHolidayBase(year, month, day, shiftSaturdays, shiftSundays); 
+}
+
+function isAHolidayUTC(date = new Date(), shiftSaturdays = true, shiftSundays = true) {
+  let year = date.getUTCFullYear();
+  let month = date.getUTCMonth();
+  let day = date.getUTCDate();
+  return isAHolidayBase(year, month, day, shiftSaturdays, shiftSundays); 
+}
+
+module.exports = {
+  isAHoliday: isAHoliday,
+  isAHolidayUTC: isAHolidayUTC,
   allForYear: allFederalHolidaysForYear
 };

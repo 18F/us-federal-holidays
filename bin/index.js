@@ -28,7 +28,9 @@ function getLastDayOf(day, month, year) {
 }
 
 function allFederalHolidaysForYear() {
-  var year = arguments.length <= 0 || arguments[0] === undefined ? new Date().getFullYear() : arguments[0];
+  var year = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date().getFullYear();
+  var shiftSaturdays = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var shiftSundays = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
   var holidays = [];
 
@@ -93,9 +95,13 @@ function allFederalHolidaysForYear() {
       var dow = holiday.date.getUTCDay();
 
       if (dow == 0) {
-        holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
+        if (shiftSundays) {
+          holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
+        }
       } else if (dow == 6) {
-        holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
+        if (shiftSaturdays) {
+          holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
+        }
       }
 
       holiday.dateString = holiday.date.getUTCFullYear() + "-" + (holiday.date.getUTCMonth() + 1) + "-" + holiday.date.getUTCDate();
@@ -118,49 +124,74 @@ function allFederalHolidaysForYear() {
   return holidays;
 }
 
-module.exports = {
-  isAHoliday: function isAHoliday() {
-    var date = arguments.length <= 0 || arguments[0] === undefined ? new Date() : arguments[0];
+function isAHolidayBase(year, month, day) {
+  var shiftSaturdays = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+  var shiftSundays = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
 
-    var isHoliday = false;
+  var isHoliday = false;
 
-    var allForYear = allFederalHolidaysForYear(date.getFullYear()).concat(allFederalHolidaysForYear(date.getFullYear() + 1));
-    var mm = date.getMonth(),
-        dd = date.getDate();
+  var allForCurrentYear = allFederalHolidaysForYear(year, shiftSaturdays, shiftSundays);
+  var allForNextYear = allFederalHolidaysForYear(year + 1, shiftSaturdays, shiftSundays);
+  var allForYear = allForCurrentYear.concat(allForNextYear[0]);
 
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
 
-    try {
-      for (var _iterator2 = allForYear[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var holiday = _step2.value;
+  try {
+    for (var _iterator2 = allForYear[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var holiday = _step2.value;
 
-        if (holiday.date.getUTCMonth() == mm && holiday.date.getUTCDate() == dd) {
-          isHoliday = true;
-          break;
-        }
-        if (holiday.date.getUTCMonth() > mm) {
-          break;
-        }
+      if (holiday.date.getUTCMonth() == month && holiday.date.getUTCDate() == day) {
+        isHoliday = true;
+        break;
       }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-          _iterator2.return();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
+      if (holiday.date.getUTCMonth() > month) {
+        break;
       }
     }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
 
-    return isHoliday;
-  },
+  return isHoliday;
+}
 
+function isAHoliday() {
+  var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+  var shiftSaturdays = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var shiftSundays = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+  var year = date.getFullYear();
+  var month = date.getMonth();
+  var day = date.getDate();
+  return isAHolidayBase(year, month, day, shiftSaturdays, shiftSundays);
+}
+
+function isAHolidayUTC() {
+  var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+  var shiftSaturdays = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var shiftSundays = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+  var year = date.getUTCFullYear();
+  var month = date.getUTCMonth();
+  var day = date.getUTCDate();
+  return isAHolidayBase(year, month, day, shiftSaturdays, shiftSundays);
+}
+
+module.exports = {
+  isAHoliday: isAHoliday,
+  isAHolidayUTC: isAHolidayUTC,
   allForYear: allFederalHolidaysForYear
 };
