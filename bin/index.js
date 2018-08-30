@@ -128,7 +128,7 @@ module.exports = {
 
     var isHoliday = false;
 
-    var allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode);
+    var allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getFullYear() + 1, federalReserveMode)[0]);
     var mm = date.getMonth(),
         dd = date.getDate();
 
@@ -171,7 +171,7 @@ module.exports = {
 
     var isHoliday = false;
 
-    var allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode);
+    var allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getUTCFullYear() + 1, federalReserveMode)[0]);
     var mm = date.getUTCMonth(),
         dd = date.getUTCDate();
 

@@ -10,16 +10,21 @@ If you have any questions or want to read more, check out the [18F Open Source P
 
 ## Development Procedure
 
-1. fork repo
-1. clone forked repo
-1. make your changes
+1. Fork repo
+1. Clone forked repo
+1. Make your changes to `src/index.js`
+
+   Add new test cases to `test/index.spec.js`.
+   Do **not** remove existing test cases.
 1. `npm install`
 1. `npm test`
-    If any tests fail, fix the code before committing.
+    
+    If any tests fail, fix `src/index.js` before committing.
 1. `npm run build`
+    
     This transpiles `bin/index.js`
-1. commit and push
-1. issue PR
+1. Commit and push
+1. Issue PR
 
 ## Public domain
 

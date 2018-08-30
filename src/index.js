@@ -122,7 +122,7 @@ module.exports = {
   isAHoliday(date = new Date(), federalReserveMode = false) {
     let isHoliday = false;
 
-    const allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode);
+    const allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getFullYear() + 1, federalReserveMode)[0]);
     const mm = date.getMonth(), dd = date.getDate();
 
     for(let holiday of allForYear) {
@@ -139,7 +139,7 @@ module.exports = {
   isAHolidayUTC(date = new Date(), federalReserveMode = false) {
     let isHoliday = false;
 
-    const allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode);
+    const allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getUTCFullYear() + 1, federalReserveMode)[0]);
     const mm = date.getUTCMonth(), dd = date.getUTCDate();
 
     for(let holiday of allForYear) {
