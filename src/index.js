@@ -25,7 +25,7 @@ function getLastDayOf(day, month, year) {
   return new Date(Date.parse(`${month}/${lastOfDay}/${year} GMT`));
 }
 
-function allFederalHolidaysForYear(year = (new Date().getFullYear()), federalReserveMode = false) {
+function allFederalHolidaysForYear(year = (new Date().getFullYear()), shiftSaturdays = true, shiftSundays = true) {
   const holidays = [ ];
 
   //const firstDay = new Date(Date.parse(`1/1/${year} GMT`));
@@ -101,11 +101,13 @@ function allFederalHolidaysForYear(year = (new Date().getFullYear()), federalRes
     const dow = holiday.date.getUTCDay();
 
     if(dow == 0) {
-      // Actual holiday falls on Sunday.  Shift
-      // the observed date forward to Monday.
-      holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
+      if (shiftSundays) {
+        // Actual holiday falls on Sunday.  Shift
+        // the observed date forward to Monday.
+        holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
+      }
     } else if(dow == 6) {
-      if (!federalReserveMode) {
+      if (shiftSaturdays) {
         // Actual holiday falls on Saturday.  Shift
         // the observed date backward to Friday.
         holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
@@ -118,40 +120,41 @@ function allFederalHolidaysForYear(year = (new Date().getFullYear()), federalRes
   return holidays;
 }
 
+function isAHolidayBase(year, month, day, shiftSaturdays = true, shiftSundays = true) {
+  let isHoliday = false;
+
+  const allForCurrentYear = allFederalHolidaysForYear(year, shiftSaturdays, shiftSundays);
+  const allForNextYear = allFederalHolidaysForYear(year + 1, shiftSaturdays, shiftSundays);
+  const allForYear = allForCurrentYear.concat(allForNextYear[0]);
+
+  for(let holiday of allForYear) {
+    if(holiday.date.getUTCMonth() == month && holiday.date.getUTCDate() == day) {
+      isHoliday = true;
+      break;
+    }
+    if(holiday.date.getUTCMonth() > month) {
+      break;
+    }
+  }
+  return isHoliday;
+}
+
+function isAHoliday(date = new Date(), shiftSaturdays = true, shiftSundays = true) {
+  let year = date.getFullYear();
+  let month = date.getMonth();
+  let day = date.getDate();
+  return isAHolidayBase(year, month, day, shiftSaturdays, shiftSundays); 
+}
+
+function isAHolidayUTC(date = new Date(), shiftSaturdays = true, shiftSundays = true) {
+  let year = date.getUTCFullYear();
+  let month = date.getUTCMonth();
+  let day = date.getUTCDate();
+  return isAHolidayBase(year, month, day, shiftSaturdays, shiftSundays); 
+}
+
 module.exports = {
-  isAHoliday(date = new Date(), federalReserveMode = false) {
-    let isHoliday = false;
-
-    const allForYear = allFederalHolidaysForYear(date.getFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getFullYear() + 1, federalReserveMode)[0]);
-    const mm = date.getMonth(), dd = date.getDate();
-
-    for(let holiday of allForYear) {
-      if(holiday.date.getUTCMonth() == mm && holiday.date.getUTCDate() == dd) {
-        isHoliday = true;
-        break;
-      }
-      if(holiday.date.getUTCMonth() > mm) {
-        break;
-      }
-    }
-    return isHoliday;
-  },
-  isAHolidayUTC(date = new Date(), federalReserveMode = false) {
-    let isHoliday = false;
-
-    const allForYear = allFederalHolidaysForYear(date.getUTCFullYear(), federalReserveMode).concat(allFederalHolidaysForYear(date.getUTCFullYear() + 1, federalReserveMode)[0]);
-    const mm = date.getUTCMonth(), dd = date.getUTCDate();
-
-    for(let holiday of allForYear) {
-      if(holiday.date.getUTCMonth() == mm && holiday.date.getUTCDate() == dd) {
-        isHoliday = true;
-        break;
-      }
-      if(holiday.date.getUTCMonth() > mm) {
-        break;
-      }
-    }
-    return isHoliday;
-  },
+  isAHoliday: isAHoliday,
+  isAHolidayUTC: isAHolidayUTC,
   allForYear: allFederalHolidaysForYear
 };
