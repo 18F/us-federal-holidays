@@ -8,6 +8,19 @@ We encourage you to read this project's CONTRIBUTING policy (you are here), its 
 
 If you have any questions or want to read more, check out the [18F Open Source Policy GitHub repository]( https://github.com/18f/open-source-policy), or just [shoot us an email](mailto:18f@gsa.gov).
 
+## Development Procedure
+
+1. fork repo
+1. clone forked repo
+1. make your changes
+1. `npm install`
+1. `npm test`
+    If any tests fail, fix the code before committing.
+1. `npm run build`
+    This transpiles `bin/index.js`
+1. commit and push
+1. issue PR
+
 ## Public domain
 
 This project is in the public domain within the United States, and
