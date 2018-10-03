@@ -1,5 +1,7 @@
 "use strict";
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function getNthDayOf(n, day, month, year) {
   var firstOfMonth = new Date(Date.parse(month + "/1/" + year + " GMT"));
 
@@ -28,7 +30,13 @@ function getLastDayOf(day, month, year) {
 }
 
 function allFederalHolidaysForYear() {
-  var year = arguments.length <= 0 || arguments[0] === undefined ? new Date().getFullYear() : arguments[0];
+  var year = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date().getFullYear();
+
+  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      _ref$shiftSaturdayHol = _ref.shiftSaturdayHolidays,
+      shiftSaturdayHolidays = _ref$shiftSaturdayHol === undefined ? true : _ref$shiftSaturdayHol,
+      _ref$shiftSundayHolid = _ref.shiftSundayHolidays,
+      shiftSundayHolidays = _ref$shiftSundayHolid === undefined ? true : _ref$shiftSundayHolid;
 
   var holidays = [];
 
@@ -82,35 +90,37 @@ function allFederalHolidaysForYear() {
     date: new Date(Date.parse("12/25/" + year + " GMT"))
   });
 
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+  if (shiftSaturdayHolidays || shiftSundayHolidays) {
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-  try {
-    for (var _iterator = holidays[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var holiday = _step.value;
-
-      var dow = holiday.date.getUTCDay();
-
-      if (dow == 0) {
-        holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
-      } else if (dow == 6) {
-        holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
-      }
-
-      holiday.dateString = holiday.date.getUTCFullYear() + "-" + (holiday.date.getUTCMonth() + 1) + "-" + holiday.date.getUTCDate();
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
     try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
+      for (var _iterator = holidays[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var holiday = _step.value;
+
+        var dow = holiday.date.getUTCDay();
+
+        if (dow == 0 && shiftSundayHolidays) {
+          holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() + 1));
+        } else if (dow == 6 && shiftSaturdayHolidays) {
+          holiday.date = new Date(Date.UTC(holiday.date.getUTCFullYear(), holiday.date.getUTCMonth(), holiday.date.getUTCDate() - 1));
+        }
+
+        holiday.dateString = holiday.date.getUTCFullYear() + "-" + (holiday.date.getUTCMonth() + 1) + "-" + holiday.date.getUTCDate();
       }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
     } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
       }
     }
   }
@@ -120,13 +130,27 @@ function allFederalHolidaysForYear() {
 
 module.exports = {
   isAHoliday: function isAHoliday() {
-    var date = arguments.length <= 0 || arguments[0] === undefined ? new Date() : arguments[0];
+    var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+
+    var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        _ref2$shiftSaturdayHo = _ref2.shiftSaturdayHolidays,
+        shiftSaturdayHolidays = _ref2$shiftSaturdayHo === undefined ? true : _ref2$shiftSaturdayHo,
+        _ref2$shiftSundayHoli = _ref2.shiftSundayHolidays,
+        shiftSundayHolidays = _ref2$shiftSundayHoli === undefined ? true : _ref2$shiftSundayHoli,
+        _ref2$utc = _ref2.utc,
+        utc = _ref2$utc === undefined ? false : _ref2$utc;
 
     var isHoliday = false;
 
-    var allForYear = allFederalHolidaysForYear(date.getFullYear()).concat(allFederalHolidaysForYear(date.getFullYear() + 1));
-    var mm = date.getMonth(),
-        dd = date.getDate();
+    var year = utc ? date.getUTCFullYear() : date.getFullYear();
+    var shift = { shiftSaturdayHolidays: shiftSaturdayHolidays, shiftSundayHolidays: shiftSundayHolidays };
+
+    var thisYear = allFederalHolidaysForYear(year, shift);
+    var nextYear = allFederalHolidaysForYear(year + 1, shift);
+    var allForYear = [].concat(_toConsumableArray(thisYear), [nextYear[0]]);
+
+    var mm = utc ? date.getUTCMonth() : date.getMonth();
+    var dd = utc ? date.getUTCDate() : date.getDate();
 
     var _iteratorNormalCompletion2 = true;
     var _didIteratorError2 = false;
