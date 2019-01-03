@@ -15,51 +15,55 @@ npm install @18f/us-federal-holidays
 To get a list of all US federal holidays in a given year, use the `allForYear` method. If no year is passed in, uses the current year.
 
 ```javascript
-var fedHolidays = require('us-federal-holidays');
-var holidays = fedHolidays.allForYear(2016);
+const fedHolidays = require('@18f/us-federal-holidays');
+
+const options = { shiftSaturdayHolidays: true, shiftSundayHolidays: true };
+const holidays = fedHolidays.allForYear(2016, options);
 
 // Returns
 [ { name: 'New Year\'s Day',
-    date: Thu Dec 31 2015 18:00:00 GMT-0600 (CST),
+    date: 2016-01-01T00:00:00.000Z,
     dateString: '2016-1-1' },
   { name: 'Birthday of Martin Luther King, Jr.',
-    date: Sun Jan 17 2016 18:00:00 GMT-0600 (CST),
+    date: 2016-01-18T00:00:00.000Z,
     dateString: '2016-1-18' },
   { name: 'Washington\'s Birthday',
-    date: Sun Feb 14 2016 18:00:00 GMT-0600 (CST),
+    date: 2016-02-15T00:00:00.000Z,
     dateString: '2016-2-15' },
   { name: 'Memorial Day',
-    date: Sun May 29 2016 19:00:00 GMT-0500 (CDT),
+    date: 2016-05-30T00:00:00.000Z,
     dateString: '2016-5-30' },
   { name: 'Independence Day',
-    date: Sun Jul 03 2016 19:00:00 GMT-0500 (CDT),
+    date: 2016-07-04T00:00:00.000Z,
     dateString: '2016-7-4' },
   { name: 'Labor Day',
-    date: Sun Sep 04 2016 19:00:00 GMT-0500 (CDT),
+    date: 2016-09-05T00:00:00.000Z,
     dateString: '2016-9-5' },
   { name: 'Columbus Day',
-    date: Sun Oct 09 2016 19:00:00 GMT-0500 (CDT),
+    date: 2016-10-10T00:00:00.000Z,
     dateString: '2016-10-10' },
   { name: 'Veterans Day',
-    date: Thu Nov 10 2016 18:00:00 GMT-0600 (CST),
+    date: 2016-11-11T00:00:00.000Z,
     dateString: '2016-11-11' },
   { name: 'Thanksgiving Day',
-    date: Wed Nov 23 2016 18:00:00 GMT-0600 (CST),
+    date: 2016-11-24T00:00:00.000Z,
     dateString: '2016-11-24' },
   { name: 'Christmas Day',
-    date: Sun Dec 25 2016 18:00:00 GMT-0600 (CST),
+    date: 2016-12-26T00:00:00.000Z,
     dateString: '2016-12-26' } ]
 ```
 
 To determine if a date is a federal holiday, use the `isAHoliday` method. If no argument is provided, defaults to the current date:
 
 ```javascript
-var fedHolidays = require('us-federal-holidays');
-var isAHoliday = fedHolidays.isAHoliday(myDate, opts);
+const fedHolidays = require('@18f/us-federal-holidays');
+
+const options = { shiftSaturdayHolidays: true, shiftSundayHolidays: true, utc: false };
+const isAHoliday = fedHolidays.isAHoliday(myDate, options);
 // Returns true or false
 ```
 
-The options is a plain object:
+Both methods take `options` as a second argument. This argument is a plain object which accepts the following properties:
 
 ```javascript
 {
@@ -67,18 +71,22 @@ The options is a plain object:
   // shifted to Friday observance.  Defaults to true, but if
   // you don't follow the US federal standard for observing
   // holidays on weekends, you can adjust!
+  // Default value is true.
   shiftSaturdayHolidays: boolean,
 
   // Whether or not holidays that fall on Sundays should be
   // shifted to Monday observance.  Defaults to true, but if
   // you don't follow the US federal standard for observing
   // holidays on weekends, you can adjust!
+  // Default value is true.
   shiftSundayHolidays: boolean,
 
   // Whether to treat the first argument as a UTC date instead
   // of the local time.  Defaults to false.  This is useful if
   // you're generating dates from UTC timestamps or otherwise
   // creating objects from UTC-based dates.
+  // Default value is false.
+  // This option only applies to the isAHoliday method.
   utc: boolean
 }
 ```
