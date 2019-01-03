@@ -103,8 +103,8 @@ function allFederalHolidaysForYear(
       const dow = holiday.date.getUTCDay();
 
       if (dow == 0 && shiftSundayHolidays) {
-        // Actual holiday falls on Sunday.  Shift
-        // the observed date forward to Monday.
+        // Actual holiday falls on Sunday.
+        // Shift the observed date forward to Monday.
         holiday.date = new Date(
           Date.UTC(
             holiday.date.getUTCFullYear(),
@@ -113,8 +113,8 @@ function allFederalHolidaysForYear(
           )
         );
       } else if (dow == 6 && shiftSaturdayHolidays) {
-        // Actual holiday falls on Saturday.  Shift
-        // the observed date backward to Friday.
+        // Actual holiday falls on Saturday.
+        // Shift the observed date backward to Friday.
         holiday.date = new Date(
           Date.UTC(
             holiday.date.getUTCFullYear(),
