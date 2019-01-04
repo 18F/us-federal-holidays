@@ -68,16 +68,16 @@ Both methods take `options` as a second argument. This argument is a plain objec
 ```javascript
 {
   // Whether or not holidays that fall on Saturdays should be
-  // shifted to Friday observance.  Defaults to true, but if
-  // you don't follow the US federal standard for observing
-  // holidays on weekends, you can adjust!
+  // shifted to Friday observance. If you don't follow the
+  // US federal standard for observing holidays on weekends,
+  // you can adjust by setting this value to false.
   // Default value is true.
   shiftSaturdayHolidays: boolean,
 
   // Whether or not holidays that fall on Sundays should be
-  // shifted to Monday observance.  Defaults to true, but if
-  // you don't follow the US federal standard for observing
-  // holidays on weekends, you can adjust!
+  // shifted to Monday observance. If you don't follow the
+  // US federal standard for observing holidays on weekends,
+  // you can adjust by setting this value to false.
   // Default value is true.
   shiftSundayHolidays: boolean,
 
