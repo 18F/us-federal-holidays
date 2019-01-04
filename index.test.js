@@ -2,13 +2,9 @@ const tap = require('tap');
 
 const federalHolidays = require('./src/index');
 
-const getDate = dateString => {
-  return new Date(`${dateString} 00:00:00`);
-};
+const getDate = dateString => new Date(`${dateString} 00:00:00`);
 
-const getDateUTC = dateString => {
-  return new Date(`${dateString}T00:00:00Z`);
-};
+const getDateUTC = dateString => new Date(`${dateString}T00:00:00Z`);
 
 tap.test('handles standard federal holidays', async tests => {
   tests.test(
