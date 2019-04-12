@@ -133,6 +133,12 @@ All three methods take `options` as a second argument. This argument is a plain 
   // Default value is true.
   shiftSundayHolidays: boolean,
 
+}
+```
+
+Additionally, `isAHoliday` takes an `options.utc` parameter:
+
+```javascript
   // Whether to treat the first argument as a UTC date instead
   // of the local time.  Defaults to false.  This is useful if
   // you're generating dates from UTC timestamps or otherwise
@@ -140,7 +146,6 @@ All three methods take `options` as a second argument. This argument is a plain 
   // Default value is false.
   // This option only applies to the isAHoliday method.
   utc: boolean
-}
 ```
 
 ### Public domain
