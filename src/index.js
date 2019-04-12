@@ -265,7 +265,7 @@ function federalHolidaysInRange(
   const yearDiff = end.getUTCFullYear() - start.getUTCFullYear();
 
   let holidays = [];
-  for (let i = 0; i <= yearDiff; i++) {
+  for (let i = 0; i <= yearDiff; i += 1) {
     const intervalStart = i === 0 ? start : new Date(Date.parse(`1/1/${start.getUTCFullYear() + i} GMT`));
     const intervalEnd = i === yearDiff ? end : new Date(Date.parse(`12/31/${start.getUTCFullYear() + i} 23:59:59.999 GMT`))
     holidays = [
