@@ -97,4 +97,76 @@ tap.test('handles standard federal holidays', async tests => {
       );
     }
   );
+
+    tests.test(
+      'handles federal holidays within a range (Saturday and Sunday holidays shifted)',
+       async test => {
+        const holidays = federalHolidays.inRange({ start: new Date('2015-07-03'), end: new Date('2016-12-26') })
+        holidays.forEach(holiday => {
+          test.ok(
+            federalHolidays.isAHoliday(getDate(holiday.dateString)),
+           `${holiday.dateString} is a holiday (observed)`
+          );
+        })
+    })
+
+    tests.test(
+      'handles federal holidays within a range (Saturday shifted only)',
+       async test => {
+        const shiftSaturdayHolidays = true;
+        const shiftSundayHolidays = false;
+        const holidays = federalHolidays.inRange(
+          { start: new Date('2015-07-03'), end: new Date('2016-12-26') },
+          { shiftSaturdayHolidays, shiftSundayHolidays }
+        )
+        holidays.forEach(holiday => {
+          test.ok(
+            federalHolidays.isAHoliday(
+              getDate(holiday.dateString),
+              { shiftSaturdayHolidays, shiftSundayHolidays }
+            ),
+           `${holiday.dateString} is a holiday (observed)`
+          );
+        })
+    })
+
+    tests.test(
+      'handles federal holidays within a range (Sunday shifted only)',
+       async test => {
+        const shiftSaturdayHolidays = false;
+        const shiftSundayHolidays = true;
+        const holidays = federalHolidays.inRange(
+          { start: new Date('2015-07-03'), end: new Date('2016-12-26') },
+          { shiftSaturdayHolidays, shiftSundayHolidays }
+        )
+        holidays.forEach(holiday => {
+          test.ok(
+            federalHolidays.isAHoliday(
+              getDate(holiday.dateString),
+              { shiftSaturdayHolidays, shiftSundayHolidays }
+            ),
+           `${holiday.dateString} is a holiday (observed)`
+          );
+        })
+    })
+
+    tests.test(
+      'handles federal holidays within a range (none shifted)',
+       async test => {
+        const shiftSaturdayHolidays = false;
+        const shiftSundayHolidays = false;
+        const holidays = federalHolidays.inRange(
+          { start: new Date('2015-07-03'), end: new Date('2016-12-26') },
+          { shiftSaturdayHolidays, shiftSundayHolidays }
+        )
+        holidays.forEach(holiday => {
+          test.ok(
+            federalHolidays.isAHoliday(
+              getDate(holiday.dateString),
+              { shiftSaturdayHolidays, shiftSundayHolidays }
+            ),
+           `${holiday.dateString} is a holiday (observed)`
+          );
+        })
+    })
 });
