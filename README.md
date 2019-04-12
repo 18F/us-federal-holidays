@@ -53,7 +53,7 @@ const holidays = fedHolidays.allForYear(2016, options);
     dateString: '2016-12-26' } ]
 ```
 
-To get a list of all US federal holidays within a date range, use the `inRange` method. If no `start` or `end` is passed in, uses the current year.
+To get a list of all US federal holidays within a date range, use the `inRange` method. If no `start` or `end` date object is passed in, uses the current year.
 
 ```javascript
 const fedHolidays = require('@18f/us-federal-holidays');
