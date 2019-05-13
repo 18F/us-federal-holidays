@@ -126,44 +126,66 @@ function allFederalHolidaysForYear(
           )
         );
       }
-
-      holiday.dateString = `${holiday.date.getUTCFullYear()}-${holiday.date.getUTCMonth() +
-        1}-${holiday.date.getUTCDate()}`;
     });
   }
+
+  holidays.forEach(holiday => {
+    holiday.dateString = `${holiday.date.getUTCFullYear()}-${holiday.date.getUTCMonth() +
+      1}-${holiday.date.getUTCDate()}`;
+  });
 
   return holidays;
 }
 
+function isAHoliday(
+  date = new Date(),
+  { shiftSaturdayHolidays = true, shiftSundayHolidays = true, utc = false } = {}
+) {
+  const year = utc ? date.getUTCFullYear() : date.getFullYear();
+  const shift = { shiftSaturdayHolidays, shiftSundayHolidays };
+
+  // Get the holidays this year, plus check if New Year's Day of next year is
+  // observed on December 31 and if so, add it to this year's list.
+  const allForYear = allFederalHolidaysForYear(year, shift);
+  const nextYear = allFederalHolidaysForYear(year + 1, shift);
+  if (nextYear[0].date.getUTCFullYear() === year) {
+    allForYear.push(nextYear[0]);
+  }
+
+  const mm = utc ? date.getUTCMonth() : date.getMonth();
+  const dd = utc ? date.getUTCDate() : date.getDate();
+
+  // If any dates in this year's holiday list match the one passed in, then
+  // the passed-in date is a holiday.  Otherwise, it is not.
+  return allForYear.some(
+    holiday =>
+      holiday.date.getUTCMonth() === mm && holiday.date.getUTCDate() === dd
+  );
+}
+
+function getOneYearFromNow() {
+  const future = new Date();
+  future.setUTCFullYear(new Date().getUTCFullYear() + 1);
+  return future;
+}
+
+function federalHolidaysInRange(
+  startDate = new Date(),
+  endDate = getOneYearFromNow(),
+  options
+) {
+  const startYear = startDate.getFullYear();
+  const endYear = endDate.getFullYear();
+
+  const candidates = [];
+  for (let year = startYear; year <= endYear; year += 1) {
+    candidates.push(...allFederalHolidaysForYear(year, options));
+  }
+  return candidates.filter(h => h.date >= startDate && h.date <= endDate);
+}
+
 module.exports = {
-  isAHoliday(
-    date = new Date(),
-    {
-      shiftSaturdayHolidays = true,
-      shiftSundayHolidays = true,
-      utc = false
-    } = {}
-  ) {
-    const year = utc ? date.getUTCFullYear() : date.getFullYear();
-    const shift = { shiftSaturdayHolidays, shiftSundayHolidays };
-
-    // Get the holidays this year, plus check if New Year's Day of next year is
-    // observed on December 31 and if so, add it to this year's list.
-    const allForYear = allFederalHolidaysForYear(year, shift);
-    const nextYear = allFederalHolidaysForYear(year + 1, shift);
-    if (nextYear[0].date.getUTCFullYear() === year) {
-      allForYear.push(nextYear[0]);
-    }
-
-    const mm = utc ? date.getUTCMonth() : date.getMonth();
-    const dd = utc ? date.getUTCDate() : date.getDate();
-
-    // If any dates in this year's holiday list match the one passed in, then
-    // the passed-in date is a holiday.  Otherwise, it is not.
-    return allForYear.some(
-      holiday =>
-        holiday.date.getUTCMonth() === mm && holiday.date.getUTCDate() === dd
-    );
-  },
-  allForYear: allFederalHolidaysForYear
+  isAHoliday,
+  allForYear: allFederalHolidaysForYear,
+  inRange: federalHolidaysInRange
 };
