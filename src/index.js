@@ -1,5 +1,13 @@
+const T0_GMT = 'T00:00:00Z';
+
+function zeroPad(n) {
+  const pad = n < 10 ? '0' : '';
+
+  return pad + n;
+}
+
 function getNthDayOf(n, day, month, year) {
-  const firstOfMonth = new Date(Date.parse(`${month}/1/${year} GMT`));
+  const firstOfMonth = new Date(Date.parse(`${year}-${zeroPad(month)}-01${T0_GMT}`));
 
   let dayOffset = firstOfMonth.getUTCDay() - day;
   if (dayOffset > 0) {
@@ -10,7 +18,7 @@ function getNthDayOf(n, day, month, year) {
   const initialDay = firstOfMonth.getUTCDate() + dayOffset;
 
   const finalDay = initialDay + 7 * (n - 1);
-  return new Date(Date.parse(`${month}/${finalDay}/${year} GMT`));
+  return new Date(Date.parse(`${year}-${zeroPad(month)}-${zeroPad(finalDay)}${T0_GMT}`));
 }
 
 function getLastDayOf(day, month, year) {
@@ -22,7 +30,7 @@ function getLastDayOf(day, month, year) {
     lastOfDay += 7;
   }
 
-  return new Date(Date.parse(`${month}/${lastOfDay}/${year} GMT`));
+  return new Date(Date.parse(`${year}-${zeroPad(month)}-${zeroPad(lastOfDay)}${T0_GMT}`));
 }
 
 function allFederalHolidaysForYear(
@@ -34,7 +42,7 @@ function allFederalHolidaysForYear(
   // New Year's Day
   holidays.push({
     name: `New Year's Day`,
-    date: new Date(Date.parse(`1/1/${year} GMT`))
+    date: new Date(Date.parse(`${year}-01-01${T0_GMT}`))
   });
 
   // Birthday of Martin Luther King, Jr.
@@ -62,13 +70,13 @@ function allFederalHolidaysForYear(
   // Juneteenth
   holidays.push({
     name: `Juneteenth`,
-    date: new Date(Date.parse(`6/19/${year} GMT`))
+    date: new Date(Date.parse(`${year}-06-19${T0_GMT}`))
   });
   
   // Independence Day
   holidays.push({
     name: `Independence Day`,
-    date: new Date(Date.parse(`7/4/${year} GMT`))
+    date: new Date(Date.parse(`${year}-07-04${T0_GMT}`))
   });
 
   // Labor Day
@@ -88,7 +96,7 @@ function allFederalHolidaysForYear(
   // Veterans Day
   holidays.push({
     name: `Veterans Day`,
-    date: new Date(Date.parse(`11/11/${year} GMT`))
+    date: new Date(Date.parse(`${year}-11-11${T0_GMT}`))
   });
 
   // Thanksgiving Day
@@ -101,7 +109,7 @@ function allFederalHolidaysForYear(
   // Christmas Day
   holidays.push({
     name: `Christmas Day`,
-    date: new Date(Date.parse(`12/25/${year} GMT`))
+    date: new Date(Date.parse(`${year}-12-25${T0_GMT}`))
   });
 
   if (shiftSaturdayHolidays || shiftSundayHolidays) {
