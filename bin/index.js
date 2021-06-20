@@ -8,8 +8,15 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+var T0_GMT = 'T00:00:00Z';
+
+function zeroPad(n) {
+  var pad = n < 10 ? '0' : '';
+  return pad + n;
+}
+
 function getNthDayOf(n, day, month, year) {
-  var firstOfMonth = new Date(Date.parse("".concat(month, "/1/").concat(year, " GMT")));
+  var firstOfMonth = new Date(Date.parse("".concat(year, "-").concat(zeroPad(month), "-01").concat(T0_GMT)));
   var dayOffset = firstOfMonth.getUTCDay() - day;
 
   if (dayOffset > 0) {
@@ -20,7 +27,7 @@ function getNthDayOf(n, day, month, year) {
 
   var initialDay = firstOfMonth.getUTCDate() + dayOffset;
   var finalDay = initialDay + 7 * (n - 1);
-  return new Date(Date.parse("".concat(month, "/").concat(finalDay, "/").concat(year, " GMT")));
+  return new Date(Date.parse("".concat(year, "-").concat(zeroPad(month), "-").concat(zeroPad(finalDay)).concat(T0_GMT)));
 }
 
 function getLastDayOf(day, month, year) {
@@ -32,7 +39,7 @@ function getLastDayOf(day, month, year) {
     lastOfDay += 7;
   }
 
-  return new Date(Date.parse("".concat(month, "/").concat(lastOfDay, "/").concat(year, " GMT")));
+  return new Date(Date.parse("".concat(year, "-").concat(zeroPad(month), "-").concat(zeroPad(lastOfDay)).concat(T0_GMT)));
 }
 
 function allFederalHolidaysForYear() {
@@ -47,7 +54,7 @@ function allFederalHolidaysForYear() {
   var holidays = [];
   holidays.push({
     name: "New Year's Day",
-    date: new Date(Date.parse("1/1/".concat(year, " GMT")))
+    date: new Date(Date.parse("".concat(year, "-01-01").concat(T0_GMT)))
   });
   holidays.push({
     name: "Birthday of Martin Luther King, Jr.",
@@ -62,8 +69,12 @@ function allFederalHolidaysForYear() {
     date: getLastDayOf(1, 5, year)
   });
   holidays.push({
+    name: "Juneteenth",
+    date: new Date(Date.parse("".concat(year, "-06-19").concat(T0_GMT)))
+  });
+  holidays.push({
     name: "Independence Day",
-    date: new Date(Date.parse("7/4/".concat(year, " GMT")))
+    date: new Date(Date.parse("".concat(year, "-07-04").concat(T0_GMT)))
   });
   holidays.push({
     name: "Labor Day",
@@ -75,7 +86,7 @@ function allFederalHolidaysForYear() {
   });
   holidays.push({
     name: "Veterans Day",
-    date: new Date(Date.parse("11/11/".concat(year, " GMT")))
+    date: new Date(Date.parse("".concat(year, "-11-11").concat(T0_GMT)))
   });
   holidays.push({
     name: "Thanksgiving Day",
@@ -83,7 +94,7 @@ function allFederalHolidaysForYear() {
   });
   holidays.push({
     name: "Christmas Day",
-    date: new Date(Date.parse("12/25/".concat(year, " GMT")))
+    date: new Date(Date.parse("".concat(year, "-12-25").concat(T0_GMT)))
   });
 
   if (shiftSaturdayHolidays || shiftSundayHolidays) {
