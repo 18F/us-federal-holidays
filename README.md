@@ -33,6 +33,10 @@ const holidays = fedHolidays.allForYear(2016, options);
   { name: 'Memorial Day',
     date: 2016-05-30T00:00:00.000Z,
     dateString: '2016-5-30' },
+  {
+    name: 'Juneteenth National Independence Day',
+    date: 2016-06-20T00:00:00.000Z,
+    dateString: '2016-6-20' },
   { name: 'Independence Day',
     date: 2016-07-04T00:00:00.000Z,
     dateString: '2016-7-4' },
@@ -69,6 +73,10 @@ const holidays = fedHolidays.federalHolidaysInRange(start, end, options);
   { name: 'Memorial Day',
     date: 2016-05-30T00:00:00.000Z,
     dateString: '2016-5-30' },
+  {
+    name: 'Juneteenth National Independence Day'
+    date: 2016-06-20T00:00:00.000Z,
+    dateString: '2016-6-20' },
   { name: 'Independence Day',
     date: 2016-07-04T00:00:00.000Z,
     dateString: '2016-7-4' },
@@ -99,6 +107,10 @@ const holidays = fedHolidays.federalHolidaysInRange(start, end, options);
   { name: 'Memorial Day',
     date: 2017-05-29T00:00:00.000Z,
     dateString: '2017-5-29' },
+  {
+    name: 'Juneteenth National Independence Day'
+    date: 2017-06-19T00:00:00.000Z,
+    dateString: '2017-6-19' },
   { name: 'Independence Day',
     date: 2017-07-04T00:00:00.000Z,
     dateString: '2017-7-4' } ]

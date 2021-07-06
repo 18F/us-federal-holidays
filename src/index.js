@@ -59,6 +59,12 @@ function allFederalHolidaysForYear(
     date: getLastDayOf(1, 5, year)
   });
 
+  // Juneteenth
+  holidays.push({
+    name: `Juneteenth National Independence Day`,
+    date: new Date(Date.parse(`6/19/${year} GMT`))
+  });
+  
   // Independence Day
   holidays.push({
     name: `Independence Day`,
