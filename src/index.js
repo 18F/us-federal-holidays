@@ -61,7 +61,7 @@ function allFederalHolidaysForYear(
 
   // Juneteenth
   holidays.push({
-    name: `Juneteenth`,
+    name: `Juneteenth National Independence Day`,
     date: new Date(Date.parse(`6/19/${year} GMT`))
   });
   

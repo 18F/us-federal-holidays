@@ -1,6 +1,6 @@
 {
   "name": "@18f/us-federal-holidays",
-  "version": "1.5.0",
+  "version": "1.6.1",
   "description": "All about US federal holidays",
   "main": "bin/index.js",
   "keywords": [
@@ -9,7 +9,12 @@
     "holidays",
     "date"
   ],
-  "author": "Greg Walker <michael.walker@gsa.gov>",
+  "contributors": [
+    "Greg Walker (https://github.com/mgwalker)",
+    "Carter Baxter (https://github.com/tbaxter-18f)",
+    "Yves Gurcan (https://github.com/yvesgurcan)",
+    "CreateThis.com (https://github.com/createthis)"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/18F/us-federal-holidays.git"
