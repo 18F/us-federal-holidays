@@ -2,7 +2,7 @@
 
 Builds and returns a list of all US federal holidays for a given year, and provides a helper method to determine if a given date is a US federal holiday. Handles shifting holidays to the nearest weekday if the holiday falls on a weekend.
 
-US federal holidays are [as defined by OPM](https://www.opm.gov/fedhol/).
+US federal holidays are [as defined by OPM](https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/).
 
 ### Installation
 
