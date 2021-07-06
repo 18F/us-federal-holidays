@@ -13,7 +13,7 @@ US federal holidays are [as defined by OPM](https://www.opm.gov/policy-data-over
 npm install @18f/us-federal-holidays
 ```
 
-Requires Node.js 6 or higher.
+Requires Node.js 10 or higher.
 
 ### Usage
 
