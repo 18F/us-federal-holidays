@@ -9,6 +9,6 @@ jobs:
       - run:
           name: update npm
           command: sudo npm i -g npm@^6.2
-      - run: npm ci
+      - run: npm install
       - run: npm run lint
       - run: npm test
