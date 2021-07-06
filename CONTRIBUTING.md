@@ -22,11 +22,11 @@ We take contributions via Github pull requests into this repo. In order to
 create a pull request, you should first fork this repo into your own
 organization or user account.
 
-Make your changes to `src/index.js`. If you're changing or adding behaviors,
-modify or add tests to `index.test.js`. Run your tests with `npm test`. Once
-your changes are finished and all tests pass, rebuild with `npm run build`,
-which will update `bin/index.js`. Commit all your changes and push them to
-your fork and open a pull request into this repo.
+Make your changes to `index.js`. If you're changing or adding behaviors, modify
+or add tests to `index.test.js`. Run your tests with `npm test`. Once your
+changes are finished and all tests pass, commit all your changes and push them
+to your fork and open a pull request into this repo. Be sure to update
+`package.json` to add yourself to the list of contributors if you want!
 
 When you open your pull request, please tell us a little about what you're
 changing or adding so we can know what we're looking at. Someone from the
