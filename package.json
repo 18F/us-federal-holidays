@@ -1,8 +1,8 @@
 {
   "name": "@18f/us-federal-holidays",
-  "version": "1.7.0",
+  "version": "2.0.0",
   "description": "All about US federal holidays",
-  "main": "bin/index.js",
+  "main": "index.js",
   "keywords": [
     "federal",
     "holiday",
@@ -14,33 +14,29 @@
     "Carter Baxter (https://github.com/tbaxter-18f)",
     "Yves Gurcan (https://github.com/yvesgurcan)",
     "CreateThis.com (https://github.com/createthis)",
-    "Alexandr Rodik (https://github.com/arodik)"
+    "Alexandr Rodik (https://github.com/arodik)",
+    "Ian Speers (https://github.com/ian-speers)"
   ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/18F/us-federal-holidays.git"
   },
-  "scripts": {
-    "lint": "eslint index.test.js 'src/**/*.js'",
-    "build": "babel src -d bin --no-comments",
-    "test": "tap --reporter=spec index.test.js"
+  "engines": {
+    "node": ">=10.0.0"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
+  "scripts": {
+    "lint": "eslint index.test.js index.js",
+    "test": "tap --reporter=spec index.test.js"
   },
   "license": "CC0-1.0",
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^4.2.0",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.17.2",
-    "prettier": "^1.17.0",
-    "tap": "^13.1.8"
+    "prettier": "^2.3.2",
+    "tap": "^15.0.9"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "prettier": {}
 }

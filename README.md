@@ -1,6 +1,9 @@
 # US Federal Holidays
 
-Builds and returns a list of all US federal holidays for a given year, and provides a helper method to determine if a given date is a US federal holiday. Handles shifting holidays to the nearest weekday if the holiday falls on a weekend.
+Builds and returns a list of all US federal holidays for a given year, and
+provides a helper method to determine if a given date is a US federal holiday.
+Handles shifting holidays to the nearest weekday if the holiday falls on a
+weekend.
 
 US federal holidays are [as defined by OPM](https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/).
 
@@ -10,9 +13,12 @@ US federal holidays are [as defined by OPM](https://www.opm.gov/policy-data-over
 npm install @18f/us-federal-holidays
 ```
 
+Requires Node.js 10 or higher.
+
 ### Usage
 
-To get a list of all US federal holidays in a given year, use the `allForYear` method. If no year is passed in, uses the current year.
+To get a list of all US federal holidays in a given year, use the `allForYear`
+method. If no year is passed in, uses the current year.
 
 ```javascript
 const fedHolidays = require('@18f/us-federal-holidays');
@@ -57,7 +63,9 @@ const holidays = fedHolidays.allForYear(2016, options);
     dateString: '2016-12-26' } ]
 ```
 
-To get a list of all US federal holidays within a date range, use the `inRange` method. If no `start` date is provided in, uses the current date. If the end date is omitted, one year from the current date is used.
+To get a list of all US federal holidays within a date range, use the `inRange`
+method. If no `start` date is provided in, uses the current date. If the end
+date is omitted, one year from the current date is used.
 
 ```javascript
 const fedHolidays = require('@18f/us-federal-holidays');
@@ -116,10 +124,11 @@ const holidays = fedHolidays.federalHolidaysInRange(start, end, options);
     dateString: '2017-7-4' } ]
 ```
 
-To determine if a date is a federal holiday, use the `isAHoliday` method. If no argument is provided, defaults to the current date:
+To determine if a date is a federal holiday, use the `isAHoliday` method. If no
+argument is provided, defaults to the current date:
 
 ```javascript
-const fedHolidays = require('@18f/us-federal-holidays');
+const fedHolidays = require("@18f/us-federal-holidays");
 
 const options = {
   shiftSaturdayHolidays: true,
@@ -130,7 +139,8 @@ const isAHoliday = fedHolidays.isAHoliday(myDate, options);
 // Returns true or false
 ```
 
-All three methods take `options` as a second argument. This argument is a plain object which accepts the following properties:
+All three methods take `options` as a second argument. This argument is a plain
+object which accepts the following properties:
 
 ```javascript
 {
@@ -166,8 +176,13 @@ Additionally, `isAHoliday` takes an `options.utc` parameter:
 
 ### Public domain
 
-This project is in the worldwide [public domain](LICENSE.md). As stated in [CONTRIBUTING](CONTRIBUTING.md):
+This project is in the worldwide [public domain](LICENSE.md). As stated in
+[CONTRIBUTING](CONTRIBUTING.md):
 
-> This project is in the public domain within the United States, and copyright and related rights in the work worldwide are waived through the [CC0 1.0 Universal public domain dedication](https://creativecommons.org/publicdomain/zero/1.0/).
+> This project is in the public domain within the United States, and copyright
+> and related rights in the work worldwide are waived through the
+> [CC0 1.0 Universal public domain dedication](https://creativecommons.org/publicdomain/zero/1.0/).
 >
-> All contributions to this project will be released under the CC0 dedication. By submitting a pull request, you are agreeing to comply with this waiver of copyright interest.
+> All contributions to this project will be released under the CC0 dedication.
+> By submitting a pull request, you are agreeing to comply with this waiver of
+> copyright interest.

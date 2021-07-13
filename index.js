@@ -1,5 +1,9 @@
-function getNthDayOf(n, day, month, year) {
-  const firstOfMonth = new Date(Date.parse(`${month}/1/${year} GMT`));
+const pad = n => `${n < 10 ? "0" : ""}${n}`;
+const getDateFor = ({ day = 1, month, year }) =>
+  new Date(`${year}-${pad(month)}-${pad(day)}T00:00:00.000Z`);
+
+const getNthDayOf = (n, day, month, year) => {
+  const firstOfMonth = getDateFor({ month, year });
 
   let dayOffset = firstOfMonth.getUTCDay() - day;
   if (dayOffset > 0) {
@@ -10,10 +14,10 @@ function getNthDayOf(n, day, month, year) {
   const initialDay = firstOfMonth.getUTCDate() + dayOffset;
 
   const finalDay = initialDay + 7 * (n - 1);
-  return new Date(Date.parse(`${month}/${finalDay}/${year} GMT`));
-}
+  return getDateFor({ day: finalDay, month, year });
+};
 
-function getLastDayOf(day, month, year) {
+const getLastDayOf = (day, month, year) => {
   const firstOfDay = getNthDayOf(1, day, month, year).getUTCDate();
   const daysInMonth = new Date(year, month, 0).getUTCDate() - 7;
 
@@ -22,19 +26,19 @@ function getLastDayOf(day, month, year) {
     lastOfDay += 7;
   }
 
-  return new Date(Date.parse(`${month}/${lastOfDay}/${year} GMT`));
-}
+  return getDateFor({ day: lastOfDay, month, year });
+};
 
-function allFederalHolidaysForYear(
+const allFederalHolidaysForYear = (
   year = new Date().getFullYear(),
   { shiftSaturdayHolidays = true, shiftSundayHolidays = true } = {}
-) {
+) => {
   const holidays = [];
 
   // New Year's Day
   holidays.push({
     name: `New Year's Day`,
-    date: new Date(Date.parse(`1/1/${year} GMT`))
+    date: getDateFor({ day: 1, month: 1, year })
   });
 
   // Birthday of Martin Luther King, Jr.
@@ -59,16 +63,18 @@ function allFederalHolidaysForYear(
     date: getLastDayOf(1, 5, year)
   });
 
-  // Juneteenth
-  holidays.push({
-    name: `Juneteenth National Independence Day`,
-    date: new Date(Date.parse(`6/19/${year} GMT`))
-  });
-  
+  if (year > 2020) {
+    // Juneteenth
+    holidays.push({
+      name: `Juneteenth National Independence Day`,
+      date: getDateFor({ day: 19, month: 6, year })
+    });
+  }
+
   // Independence Day
   holidays.push({
     name: `Independence Day`,
-    date: new Date(Date.parse(`7/4/${year} GMT`))
+    date: getDateFor({ day: 4, month: 7, year })
   });
 
   // Labor Day
@@ -88,7 +94,7 @@ function allFederalHolidaysForYear(
   // Veterans Day
   holidays.push({
     name: `Veterans Day`,
-    date: new Date(Date.parse(`11/11/${year} GMT`))
+    date: getDateFor({ day: 11, month: 11, year })
   });
 
   // Thanksgiving Day
@@ -101,7 +107,7 @@ function allFederalHolidaysForYear(
   // Christmas Day
   holidays.push({
     name: `Christmas Day`,
-    date: new Date(Date.parse(`12/25/${year} GMT`))
+    date: getDateFor({ day: 25, month: 12, year })
   });
 
   if (shiftSaturdayHolidays || shiftSundayHolidays) {
@@ -141,12 +147,12 @@ function allFederalHolidaysForYear(
   });
 
   return holidays;
-}
+};
 
-function isAHoliday(
+const isAHoliday = (
   date = new Date(),
   { shiftSaturdayHolidays = true, shiftSundayHolidays = true, utc = false } = {}
-) {
+) => {
   const year = utc ? date.getUTCFullYear() : date.getFullYear();
   const shift = { shiftSaturdayHolidays, shiftSundayHolidays };
 
@@ -167,19 +173,19 @@ function isAHoliday(
     holiday =>
       holiday.date.getUTCMonth() === mm && holiday.date.getUTCDate() === dd
   );
-}
+};
 
-function getOneYearFromNow() {
+const getOneYearFromNow = () => {
   const future = new Date();
-  future.setUTCFullYear(new Date().getUTCFullYear() + 1);
+  future.setUTCFullYear(future.getUTCFullYear() + 1);
   return future;
-}
+};
 
-function federalHolidaysInRange(
+const federalHolidaysInRange = (
   startDate = new Date(),
   endDate = getOneYearFromNow(),
   options
-) {
+) => {
   const startYear = startDate.getFullYear();
   const endYear = endDate.getFullYear();
 
@@ -188,7 +194,7 @@ function federalHolidaysInRange(
     candidates.push(...allFederalHolidaysForYear(year, options));
   }
   return candidates.filter(h => h.date >= startDate && h.date <= endDate);
-}
+};
 
 module.exports = {
   isAHoliday,
