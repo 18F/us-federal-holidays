@@ -32,6 +32,6 @@ export interface Holiday {
 
 export function isAHoliday(date?: Date, params?: Partial<WithHolidayShift & WithUTCDate>): boolean;
 
-export function allForYear(date?: Date, params?: Partial<WithHolidayShift>): Holiday[];
+export function allForYear(year?: number, params?: Partial<WithHolidayShift>): Holiday[];
 
 export function inRange(startDate?: Date, endDate?: Date, params?: Partial<WithHolidayShift>): Holiday[];
