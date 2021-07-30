@@ -1,6 +1,6 @@
 {
   "name": "@18f/us-federal-holidays",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "All about US federal holidays",
   "main": "index.js",
   "keywords": [
@@ -15,7 +15,8 @@
     "Yves Gurcan (https://github.com/yvesgurcan)",
     "CreateThis.com (https://github.com/createthis)",
     "Alexandr Rodik (https://github.com/arodik)",
-    "Ian Speers (https://github.com/ian-speers)"
+    "Ian Speers (https://github.com/ian-speers)",
+    "Tse Kit Yam (https://github.com/tsekityam)"
   ],
   "repository": {
     "type": "git",
