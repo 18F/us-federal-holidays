@@ -19,7 +19,7 @@ const getNthDayOf = (n, day, month, year) => {
 
 const getLastDayOf = (day, month, year) => {
   const firstOfDay = getNthDayOf(1, day, month, year).getUTCDate();
-  const daysInMonth = new Date(year, month, 0).getUTCDate() - 7;
+  const daysInMonth = new Date(year, month).getUTCDate() - 7;
 
   let lastOfDay = firstOfDay;
   while (lastOfDay <= daysInMonth) {

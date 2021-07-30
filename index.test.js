@@ -25,7 +25,8 @@ tap.test("handles standard federal holidays", async tests => {
         "2014-12-25",
         "2015-07-03", // Independence Day falls on a Saturday, observed before
         "2016-12-26", // Christmas Day falls on a Sunday, observed after
-        "2017-12-25"
+        "2017-12-25",
+        "2021-05-31" // missing holiday from https://github.com/18F/us-federal-holidays/issues/28
       ].forEach(dateString => {
         const date = getDate(dateString);
         const utcDate = getDateUTC(dateString);
@@ -50,7 +51,8 @@ tap.test("handles standard federal holidays", async tests => {
         "2011-01-01", // New Year's Day falls on a Saturday, so is not a holiday
         "2012-01-01", // New Year's Day falls on a Sunday, so is not a holiday
         "2015-07-04", // Independence Day falls on a Saturday, so is not a holiday
-        "2016-12-25" // Christmas Day falls on a Sunday, so is not a holiday
+        "2016-12-25", // Christmas Day falls on a Sunday, so is not a holiday
+        "2021-05-24" // unexpected holiday from https://github.com/18F/us-federal-holidays/issues/28
       ].forEach(dateString => {
         const date = getDate(dateString);
         const utcDate = getDateUTC(dateString);
