@@ -105,7 +105,7 @@ const allFederalHolidaysForYear = (
   // Fourth Thursday of November
   holidays.push({
     name: `Thanksgiving Day`,
-    date: getLastDayOf(4, 11, year)
+    date: getNthDayOf(4, 4, 11, year)
   });
 
   // Christmas Day
