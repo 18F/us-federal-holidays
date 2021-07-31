@@ -1,32 +1,36 @@
-const pad = n => `${n < 10 ? "0" : ""}${n}`;
+const dayjs = require("dayjs");
+const utcPlugin = require("dayjs/plugin/utc");
+
+dayjs.extend(utcPlugin);
+
 const getDateFor = ({ day = 1, month, year }) =>
-  new Date(`${year}-${pad(month)}-${pad(day)}T00:00:00.000Z`);
+  dayjs(`${year}-${month}-${day}`, "YYYY-MM-DD");
 
 const getNthDayOf = (n, day, month, year) => {
-  const firstOfMonth = getDateFor({ month, year });
+  let result = dayjs(getDateFor({ month, year })).day(day);
 
-  let dayOffset = firstOfMonth.getUTCDay() - day;
-  if (dayOffset > 0) {
-    dayOffset = 7 - dayOffset;
-  } else {
-    dayOffset = -dayOffset;
+  if (result.month() !== month - 1) {
+    result = result.add(1, "week");
   }
-  const initialDay = firstOfMonth.getUTCDate() + dayOffset;
 
-  const finalDay = initialDay + 7 * (n - 1);
-  return getDateFor({ day: finalDay, month, year });
+  for (let i = 1; i < n; i += i) {
+    result = result.add(1, "week");
+  }
+
+  return result;
 };
 
 const getLastDayOf = (day, month, year) => {
-  const firstOfDay = getNthDayOf(1, day, month, year).getUTCDate();
-  const daysInMonth = new Date(year, month, 0).getUTCDate() - 7;
+  const daysInMonth = dayjs(getDateFor({ month, year })).daysInMonth();
+  const lastDayOfMonth = dayjs(`${year}-${month}-${daysInMonth}`, "YYYY-MM-DD");
 
-  let lastOfDay = firstOfDay;
-  while (lastOfDay <= daysInMonth) {
-    lastOfDay += 7;
+  let result = lastDayOfMonth.day(day);
+
+  if (result.month() !== month - 1) {
+    result = result.subtract(1, "week");
   }
 
-  return getDateFor({ day: lastOfDay, month, year });
+  return result;
 };
 
 const allFederalHolidaysForYear = (
@@ -110,68 +114,48 @@ const allFederalHolidaysForYear = (
     date: getDateFor({ day: 25, month: 12, year })
   });
 
-  if (shiftSaturdayHolidays || shiftSundayHolidays) {
-    holidays.forEach(holiday => {
-      // Allow the holiday objects to be modified inside this loop:
-      /* eslint-disable no-param-reassign */
+  return holidays.map(holiday => {
+    let date = dayjs(holiday.date);
 
-      const dow = holiday.date.getUTCDay();
+    if (date.day() === 0 && shiftSundayHolidays) {
+      // Actual holiday falls on Sunday. Shift the observed date forward to
+      // Monday.
+      date = date.add(1, "day");
+    }
 
-      if (dow === 0 && shiftSundayHolidays) {
-        // Actual holiday falls on Sunday. Shift the observed date forward to
-        // Monday.
-        holiday.date = new Date(
-          Date.UTC(
-            holiday.date.getUTCFullYear(),
-            holiday.date.getUTCMonth(),
-            holiday.date.getUTCDate() + 1
-          )
-        );
-      } else if (dow === 6 && shiftSaturdayHolidays) {
-        // Actual holiday falls on Saturday. Shift the observed date backward
-        // to Friday.
-        holiday.date = new Date(
-          Date.UTC(
-            holiday.date.getUTCFullYear(),
-            holiday.date.getUTCMonth(),
-            holiday.date.getUTCDate() - 1
-          )
-        );
-      }
-    });
-  }
+    if (date.day() === 6 && shiftSaturdayHolidays) {
+      // Actual holiday falls on Saturday. Shift the observed date backward
+      // to Friday.
+      date = date.subtract(1, "day");
+    }
 
-  holidays.forEach(holiday => {
-    holiday.dateString = `${holiday.date.getUTCFullYear()}-${holiday.date.getUTCMonth() +
-      1}-${holiday.date.getUTCDate()}`;
+    return {
+      name: holiday.name,
+      date: date.toDate(),
+      dateString: date.format("YYYY-MM-DD")
+    };
   });
-
-  return holidays;
 };
 
 const isAHoliday = (
   date = new Date(),
   { shiftSaturdayHolidays = true, shiftSundayHolidays = true, utc = false } = {}
 ) => {
-  const year = utc ? date.getUTCFullYear() : date.getFullYear();
+  const newDate = utc ? dayjs.utc(date) : dayjs(date);
+  const year = newDate.year();
+
   const shift = { shiftSaturdayHolidays, shiftSundayHolidays };
 
   // Get the holidays this year, plus check if New Year's Day of next year is
   // observed on December 31 and if so, add it to this year's list.
   const allForYear = allFederalHolidaysForYear(year, shift);
   const nextYear = allFederalHolidaysForYear(year + 1, shift);
-  if (nextYear[0].date.getUTCFullYear() === year) {
-    allForYear.push(nextYear[0]);
-  }
-
-  const mm = utc ? date.getUTCMonth() : date.getMonth();
-  const dd = utc ? date.getUTCDate() : date.getDate();
+  allForYear.push(nextYear[0]);
 
   // If any dates in this year's holiday list match the one passed in, then
   // the passed-in date is a holiday.  Otherwise, it is not.
   return allForYear.some(
-    holiday =>
-      holiday.date.getUTCMonth() === mm && holiday.date.getUTCDate() === dd
+    holiday => holiday.date.toDateString() === newDate.toDate().toDateString()
   );
 };
 
