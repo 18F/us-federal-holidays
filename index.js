@@ -13,9 +13,7 @@ const getNthDayOf = (n, day, month, year) => {
     result = result.add(1, "week");
   }
 
-  for (let i = 1; i < n; i += i) {
-    result = result.add(1, "week");
-  }
+  result = result.add(n - 1, "week");
 
   return result;
 };
