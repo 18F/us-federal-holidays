@@ -1,0 +1,29 @@
+name: tests
+
+on: [push]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        node: [10, 12, 14, 16]
+        tz: [UTC, America/New_York, America/Los_Angeles, America/Phoenix, Asia/Hong_Kong]
+    
+    name: Node ${{ matrix.node }}, ${{ matrix.tz }} timezone
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@d6e3b5539ed7e5ccd26c3459e26c7c817f4e9068
+        with:
+          node-version: ${{ matrix.node}}
+      - uses: actions/checkout@af513c7a016048ae468971c52ed77d9562c7c819
+      - name: set timezone
+        run: sudo timedatectl set-timezone ${{ matrix.tz }}
+      - name: install dependencies
+        run: npm install
+      - name: lint
+        run: npm run lint
+      - name: test
+        run: npm test
+      
