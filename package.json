@@ -27,6 +27,7 @@
   },
   "scripts": {
     "lint": "eslint index.test.js index.js",
+    "format": "prettier --write index.test.js index.js",
     "test": "tap --reporter=spec index.test.js"
   },
   "license": "CC0-1.0",
@@ -38,6 +39,14 @@
     "prettier": "^2.3.2",
     "tap": "^15.0.9"
   },
-  "dependencies": {},
-  "prettier": {}
+  "dependencies": {
+    "dayjs": "^1.10.6"
+  },
+  "prettier": {
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": false,
+    "arrowParens": "avoid"
+  }
 }
