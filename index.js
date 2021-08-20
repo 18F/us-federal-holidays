@@ -9,6 +9,13 @@ const getDateFor = ({ day = 1, month, year }) =>
 const getNthDayOf = (n, day, month, year) => {
   let result = dayjs(getDateFor({ month, year })).day(day);
 
+  // dayjs.day(x) can return a time in the past (relative to the date being
+  // operated on), because it returns a time from within the operand date's
+  // current week. E.g.:
+  //
+  // date = July 1, 2021 # Thursday
+  // dayjs(date).day(0)  # Get Sunday
+  // # returns June 27, 2021
   if (result.month() !== month - 1) {
     result = result.add(1, "week");
   }
@@ -24,6 +31,8 @@ const getLastDayOf = (day, month, year) => {
 
   let result = lastDayOfMonth.day(day);
 
+  // See above comment for more details. TL;DR is dayjs.day(x) is not
+  // constrained to the same month as the operand object.
   if (result.month() !== month - 1) {
     result = result.subtract(1, "week");
   }
@@ -153,7 +162,7 @@ const isAHoliday = (
   // If any dates in this year's holiday list match the one passed in, then
   // the passed-in date is a holiday.  Otherwise, it is not.
   return allForYear.some(
-    holiday => holiday.date.toDateString() === newDate.toDate().toDateString()
+    holiday => holiday.dateString === newDate.format("YYYY-MM-DD")
   );
 };
 
