@@ -140,6 +140,7 @@ const allFederalHolidaysForYear = (
 
     return {
       name: holiday.name,
+      alsoObservedAs: holiday.alsoObservedAs,
       date: date.toDate(),
       dateString: date.format("YYYY-MM-DD")
     };

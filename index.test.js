@@ -147,6 +147,14 @@ tap.test("handles standard federal holidays", async tests => {
           federalHolidays.isAHoliday(getDate(holiday.dateString)),
           `${holiday.dateString} is a holiday (observed)`
         );
+
+        // Make sure the alsoObservedAs property gets pulled through
+        if (
+          holiday.name === "Washington's Birthday" ||
+          holiday.name === "Columbus Day"
+        ) {
+          test.ok(holiday.alsoObservedAs);
+        }
       });
     }
   );
