@@ -64,6 +64,7 @@ const allFederalHolidaysForYear = (
   // Fun fact 2: officially "Washington's Birthday," not "President's Day"
   holidays.push({
     name: `Washington's Birthday`,
+    alsoObservedAs: "Presidents' Day",
     date: getNthDayOf(3, 1, 2, year)
   });
 
@@ -99,6 +100,7 @@ const allFederalHolidaysForYear = (
   // Second Monday in October
   holidays.push({
     name: `Columbus Day`,
+    alsoObservedAs: "Indigenous Peoples' Day",
     date: getNthDayOf(2, 1, 10, year)
   });
 
