@@ -49,6 +49,7 @@ const allFederalHolidaysForYear = (
   // New Year's Day
   holidays.push({
     name: `New Year's Day`,
+    alternate_names: [],
     date: getDateFor({ day: 1, month: 1, year })
   });
 
@@ -56,6 +57,7 @@ const allFederalHolidaysForYear = (
   // Third Monday of January; fun fact: actual birthday is January 15
   holidays.push({
     name: `Birthday of Martin Luther King, Jr.`,
+    alternate_names: [],
     date: getNthDayOf(3, 1, 1, year)
   });
 
@@ -64,6 +66,7 @@ const allFederalHolidaysForYear = (
   // Fun fact 2: officially "Washington's Birthday," not "President's Day"
   holidays.push({
     name: `Washington's Birthday`,
+    alternate_names: [`President's Day`],
     date: getNthDayOf(3, 1, 2, year)
   });
 
@@ -71,6 +74,7 @@ const allFederalHolidaysForYear = (
   // Last Monday of May
   holidays.push({
     name: `Memorial Day`,
+    alternate_names: [],
     date: getLastDayOf(1, 5, year)
   });
 
@@ -78,6 +82,7 @@ const allFederalHolidaysForYear = (
     // Juneteenth
     holidays.push({
       name: `Juneteenth National Independence Day`,
+      alternate_names: [],
       date: getDateFor({ day: 19, month: 6, year })
     });
   }
@@ -85,6 +90,7 @@ const allFederalHolidaysForYear = (
   // Independence Day
   holidays.push({
     name: `Independence Day`,
+    alternate_names: [],
     date: getDateFor({ day: 4, month: 7, year })
   });
 
@@ -92,6 +98,7 @@ const allFederalHolidaysForYear = (
   // First Monday in September
   holidays.push({
     name: `Labor Day`,
+    alternate_names: [],
     date: getNthDayOf(1, 1, 9, year)
   });
 
@@ -99,12 +106,14 @@ const allFederalHolidaysForYear = (
   // Second Monday in October
   holidays.push({
     name: `Columbus Day`,
+    alternate_names: [`Indigenous Peoples' Day`],
     date: getNthDayOf(2, 1, 10, year)
   });
 
   // Veterans Day
   holidays.push({
     name: `Veterans Day`,
+    alternate_names: [],
     date: getDateFor({ day: 11, month: 11, year })
   });
 
@@ -112,12 +121,14 @@ const allFederalHolidaysForYear = (
   // Fourth Thursday of November
   holidays.push({
     name: `Thanksgiving Day`,
+    alternate_names: [],
     date: getNthDayOf(4, 4, 11, year)
   });
 
   // Christmas Day
   holidays.push({
     name: `Christmas Day`,
+    alternate_names: [],
     date: getDateFor({ day: 25, month: 12, year })
   });
 
