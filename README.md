@@ -36,7 +36,7 @@ const holidays = fedHolidays.allForYear(2016, options);
     date: 2016-01-18T00:00:00.000Z,
     dateString: '2016-1-18' },
   { name: 'Washington\'s Birthday',
-    alternate_names: ['President\'s Day'],
+    alternate_names: ['Presidents\' Day'],
     date: 2016-02-15T00:00:00.000Z,
     dateString: '2016-2-15' },
   { name: 'Memorial Day',

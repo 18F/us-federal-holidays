@@ -66,7 +66,7 @@ const allFederalHolidaysForYear = (
   // Fun fact 2: officially "Washington's Birthday," not "President's Day"
   holidays.push({
     name: `Washington's Birthday`,
-    alternate_names: [`President's Day`],
+    alternate_names: [`Presidents' Day`],
     date: getNthDayOf(3, 1, 2, year)
   });
 
