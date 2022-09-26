@@ -1,6 +1,6 @@
 {
   "name": "@18f/us-federal-holidays",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "All about US federal holidays",
   "main": "index.js",
   "keywords": [
