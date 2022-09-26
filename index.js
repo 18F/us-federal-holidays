@@ -178,7 +178,7 @@ const getOneYearFromNow = () => {
 const federalHolidaysInRange = (
   startDate = new Date(),
   endDate = getOneYearFromNow(),
-  options
+  options = undefined
 ) => {
   const startYear = startDate.getFullYear();
   const endYear = endDate.getFullYear();
