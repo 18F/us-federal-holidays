@@ -4,7 +4,7 @@ const utcPlugin = require("dayjs/plugin/utc");
 dayjs.extend(utcPlugin);
 
 const getDateFor = ({ day = 1, month, year }) =>
-  dayjs(`${year}-${month}-${day}`, "YYYY-MM-DD");
+  dayjs(`${year}-${month}-${day}`, "YYYY-M-D");
 
 const getNthDayOf = (n, day, month, year) => {
   let result = dayjs(getDateFor({ month, year })).day(day);
@@ -27,7 +27,7 @@ const getNthDayOf = (n, day, month, year) => {
 
 const getLastDayOf = (day, month, year) => {
   const daysInMonth = dayjs(getDateFor({ month, year })).daysInMonth();
-  const lastDayOfMonth = dayjs(`${year}-${month}-${daysInMonth}`, "YYYY-MM-DD");
+  const lastDayOfMonth = dayjs(`${year}-${month}-${daysInMonth}`, "YYYY-M-D");
 
   let result = lastDayOfMonth.day(day);
 
