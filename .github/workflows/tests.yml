@@ -6,7 +6,7 @@ jobs:
   test:
     strategy:
       matrix:
-        node: [16, 18]
+        node: [16, 18, 20]
         tz: [UTC, America/New_York, America/Los_Angeles, America/Phoenix, Asia/Hong_Kong]
     
     name: Node ${{ matrix.node }}, ${{ matrix.tz }} timezone
