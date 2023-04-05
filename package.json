@@ -1,6 +1,6 @@
 {
   "name": "@18f/us-federal-holidays",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "All about US federal holidays",
   "main": "index.js",
   "keywords": [
@@ -17,7 +17,8 @@
     "Alexandr Rodik (https://github.com/arodik)",
     "Ian Speers (https://github.com/ian-speers)",
     "Tse Kit Yam (https://github.com/tsekityam)",
-    "Ben Berry (https://github.com/bengerman13)"
+    "Ben Berry (https://github.com/bengerman13)",
+    "Keith Pops (https://github.com/keithpops)"
   ],
   "repository": {
     "type": "git",

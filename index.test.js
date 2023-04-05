@@ -1,4 +1,13 @@
+const customParseFormat = require("dayjs/plugin/customParseFormat");
+const dayjs = require("dayjs");
 const tap = require("tap");
+
+// The customParseFormat plugin changes the way the dayjs() utility method
+// handles format strings. Specifically, MM and DD format tokens will REQUIRE
+// two-digit months and days, whereas the default constructor will happily take
+// single-digit months and days. Add the plugin to our tests to make sure we
+// still work in environments where the plugin is being used.
+dayjs.extend(customParseFormat);
 
 const federalHolidays = require("./index");
 
