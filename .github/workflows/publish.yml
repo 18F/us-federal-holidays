@@ -12,25 +12,26 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
   deploy:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 20
-    - name: update to latest npm
-      run: npm i -g npm
-    - name: get new version
-      id: version
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const fs = require("fs/promises");
-          const pkg = await fs.readFile("./package.json");
-          core.setOutput("version", pkg.version);
-    - name: echo it
-      run: echo ${{ steps.version.outputs.version }}
-    # - name: install dependencies
-    #   run: npm ci
-    # - name: publish
-    #   run: npm publish --provenance --access public
-    #   env:
-    #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: update to latest npm
+        run: npm i -g npm
+      - name: get new version
+        id: version
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require("fs/promises");
+            const pkg = await fs.readFile("./package.json");
+            core.setOutput("version", pkg.version);
+      - name: echo it
+        run: echo ${{ steps.version.outputs.version }}
+      # - name: install dependencies
+      #   run: npm ci
+      # - name: publish
+      #   run: npm publish --provenance --access public
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
