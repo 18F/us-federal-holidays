@@ -17,25 +17,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - name: update to latest npm
-        run: npm i -g npm
-      - name: get new version
-        id: version
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require("fs/promises");
-            const pkg = JSON.parse(await fs.readFile("./package.json", { encoding: "utf-8" }));
-            core.setOutput("version", pkg.version);
-      - name: echo it
-        run: echo "version = ${{ steps.version.outputs.version }}"
+      - run: echo ${{ github.event.pull_request.body }}
+      # - uses: actions/checkout@v3
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 20
+      # - name: update to latest npm
+      #   run: npm i -g npm
+      # - name: get new version
+      #   id: version
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       const fs = require("fs/promises");
+      #       const pkg = JSON.parse(await fs.readFile("./package.json", { encoding: "utf-8" }));
+      #       core.setOutput("version", pkg.version);
       # - name: install dependencies
       #   run: npm ci
       # - name: publish
       #   run: npm publish --provenance --access public
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - use: oftprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+      #   with:
+      #     name: v${{ steps.version.outputs.version }}
+      #     tag_name: v${{ steps.versions.outputs.version }}
