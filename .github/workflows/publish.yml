@@ -38,7 +38,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: create release
-        uses: oftprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
         with:
           name: v${{ steps.version.outputs.version }}
           tag_name: v${{ steps.versions.outputs.version }}
