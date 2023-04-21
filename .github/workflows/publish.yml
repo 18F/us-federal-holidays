@@ -11,7 +11,9 @@ permissions:
 jobs:
   tests:
     uses: ./.github/workflows/tests.yml
-  deploy:
+  publish:
+    name: publish reelase
+    needs: [tests]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
