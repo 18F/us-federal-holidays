@@ -29,10 +29,10 @@ jobs:
         with:
           script: |
             const fs = require("fs/promises");
-            const pkg = await fs.readFile("./package.json", { encoding: "utf-8" });
+            const pkg = JSON.parse(await fs.readFile("./package.json", { encoding: "utf-8" }));
             core.setOutput("version", pkg.version);
       - name: echo it
-        run: echo ${{ steps.version.outputs.version }}
+        run: echo "version = ${{ steps.version.outputs.version }}"
       # - name: install dependencies
       #   run: npm ci
       # - name: publish
