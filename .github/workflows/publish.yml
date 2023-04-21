@@ -37,7 +37,19 @@ jobs:
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - use: oftprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+      - name: create release
+        uses: oftprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
         with:
           name: v${{ steps.version.outputs.version }}
           tag_name: v${{ steps.versions.outputs.version }}
+      - name: remind author to update the release
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Version ${{ steps.versions.outputs.version }} has been published to npm and a GitHub release has been created. Don't forget to update the release notes!"
+            })
