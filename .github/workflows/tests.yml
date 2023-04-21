@@ -1,12 +1,12 @@
 name: tests
 
-on: [pull_request, push]
+on: [pull_request, push, workflow_call]
 
 jobs:
   test:
     strategy:
       matrix:
-        node: [12, 14, 16, 18]
+        node: [16, 18, 20]
         tz: [UTC, America/New_York, America/Los_Angeles, America/Phoenix, Asia/Hong_Kong]
     
     name: Node ${{ matrix.node }}, ${{ matrix.tz }} timezone
@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/setup-node@d6e3b5539ed7e5ccd26c3459e26c7c817f4e9068
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node}}
-      - uses: actions/checkout@af513c7a016048ae468971c52ed77d9562c7c819
+      - uses: actions/checkout@v3
       - name: set timezone
         run: sudo timedatectl set-timezone ${{ matrix.tz }}
       - name: install dependencies

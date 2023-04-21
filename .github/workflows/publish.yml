@@ -1,0 +1,55 @@
+name: publish release
+
+on:
+  push:
+    branches:
+      - releases
+
+permissions:
+  id-token: write
+
+jobs:
+  tests:
+    uses: ./.github/workflows/tests.yml
+  publish:
+    name: publish release
+    needs: [tests]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: update to latest npm
+        run: npm i -g npm
+      - name: get new version
+        id: version
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require("fs/promises");
+            const pkg = JSON.parse(await fs.readFile("./package.json", { encoding: "utf-8" }));
+            core.setOutput("version", pkg.version);
+      - name: install dependencies
+        run: npm ci
+      - name: publish
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: create release
+        uses: oftprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+        with:
+          name: v${{ steps.version.outputs.version }}
+          tag_name: v${{ steps.versions.outputs.version }}
+      - name: remind author to update the release
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Version ${{ steps.versions.outputs.version }} has been published to npm and a GitHub release has been created. Don't forget to update the release notes!"
+            })
