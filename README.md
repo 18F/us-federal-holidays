@@ -74,7 +74,7 @@ const fedHolidays = require('@18f/us-federal-holidays');
 const start = new Date('2016-02-13');
 const end = new Date('2017-07-23');
 const options = { shiftSaturdayHolidays: true, shiftSundayHolidays: true };
-const holidays = fedHolidays.federalHolidaysInRange(start, end, options);
+const holidays = fedHolidays.inRange(start, end, options);
 
 // Returns
 [ { name: 'Washington\'s Birthday',
